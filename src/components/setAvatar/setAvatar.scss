@@ -1,0 +1,44 @@
+.set_avatar {
+  background-color: #0d1117;
+  height: 100vh;
+  .avatars {
+    .avatar {
+      margin: 3rem;
+
+      img {
+        width: 100px;
+      }
+      img:hover {
+        border: 5px solid white;
+        border-radius: 50%;
+      }
+    }
+  }
+  .rgstr_btn {
+    width: 10% !important;
+  }
+  .selected {
+    border: 0.4rem solid #ff0e9f;
+    border-radius: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .set_avatar{
+    .avatars{
+     display: grid !important;
+     grid-template-columns: 1fr 1fr;
+     grid-template-rows: auto;
+    }
+    
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .set_avatar{
+    .rgstr_btn{
+      width: 30% !important;
+    }
+  }
+}

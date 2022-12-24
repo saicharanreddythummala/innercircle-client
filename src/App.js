@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import Meta from './utils/Meta';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Register from './pages/register/Register';
+import Main from './pages/main/Main';
+import Login from './pages/login/Login';
+import SetAvatar from './components/setAvatar/SetAvatar';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Meta title="Home" />
+      <Routes>
+        <Route path="/*" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/setAvatar" element={<SetAvatar />} />
+      </Routes>
+    </>
   );
 }
 

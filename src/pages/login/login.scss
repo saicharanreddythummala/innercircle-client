@@ -1,0 +1,42 @@
+@media screen and (max-width: 600px) {
+  .register {
+    position: relative;
+    height: 100vh;
+    .logo {
+      h5 {
+        font-size: 2rem;
+        top: 100px;
+      }
+      h6 {
+        font-size: 1.4rem;
+      }
+    }
+    .rgstr_grid {
+      .MuiGrid-root {
+        padding-left: 0;
+        width: 275px !important;
+        margin-left: 0;
+      }
+      .login_g {
+        margin-top: 80px !important;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width:1000px) {
+    .register{
+        .MuiGrid-container{
+            height: 400px !important;
+        }
+        .MuiGrid-root{
+            width: 50% !important;
+            .MuiFormControl-root{
+                width: 100%;
+            }
+        }
+        .css-480o17-MuiGrid-root>.MuiGrid-item{
+            padding-top: 0;
+        }
+    }
+}

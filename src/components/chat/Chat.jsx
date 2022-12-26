@@ -38,7 +38,7 @@ export default function Chat() {
   useEffect(() => {
     if(currentUser){
 
-      socket.current = io(`http://localhost:4000`, {
+      socket.current = io(`https://innercircle-server.vercel.app`, {
         withCredentials: true,
       });
       socket.current.emit('add-user', currentUser._id);

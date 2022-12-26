@@ -14,6 +14,8 @@ export default function Login() {
 
   const [loading, setloading] = useState(false);
 
+
+
   const tfOptions = {
     '& label.Mui-focused': {
       color: '#9381ff',
@@ -36,6 +38,7 @@ export default function Login() {
     },
   };
 
+
   const validate = (values) => {
     const errors = {};
 
@@ -49,6 +52,7 @@ export default function Login() {
 
     return errors;
   };
+
 
   const formik = useFormik({
     initialValues: {
@@ -80,7 +84,7 @@ export default function Login() {
 
         setloading(false);
 
-        navigate('/chat');
+        navigate('/');
       } catch (err) {
         alert(err.response.data.error);
         setloading(false);
@@ -89,11 +93,14 @@ export default function Login() {
     },
   });
 
+
   useEffect(() => {
     if (localStorage.getItem('user')) {
       navigate('/chat');
     }
   }, [navigate]);
+
+
 
   return (
     <>

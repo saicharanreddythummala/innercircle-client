@@ -6,12 +6,14 @@ import Welcome from '../welcome/Welcome';
 import axios from 'axios';
 import ContactsNav from '../contacts/ContactsNav';
 import './chat.scss';
-import { io } from 'socket.io-client';
 import MenuIcon from '@mui/icons-material/Menu';
+import { io } from 'socket.io-client';
+import '../chatContainer/chatContainer.scss';
+
 
 export default function Chat() {
   const navigate = useNavigate();
-
+  
   const socket = useRef();
 
   const [contacts, setContacts] = useState([]);
@@ -19,8 +21,10 @@ export default function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [clicked, setClicked] = useState(false);
 
+
   useEffect(() => {
-    async function getUser() {
+    async function getUser(){
+       
       if (!localStorage.getItem('user')) {
         navigate('/login');
       } else {
@@ -30,15 +34,19 @@ export default function Chat() {
     getUser();
   }, [navigate]);
 
+
   useEffect(() => {
-    if (currentUser) {
-      socket.current = io(`https://innercircle-server.vercel.app`);
+    if(currentUser){
+
+      socket.current = io(`http://localhost:4000`, {
+        withCredentials: true,
+      });
       socket.current.emit('add-user', currentUser._id);
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    async function getContacts() {
+    useEffect(() => {
+    async function getContacts(){
       if (currentUser) {
         if (currentUser.isAvatar) {
           const data = await axios.get(`${getUsersApi}/${currentUser._id}`);
@@ -48,7 +56,6 @@ export default function Chat() {
         }
       }
     }
-
     getContacts();
   }, [currentUser, navigate]);
 
@@ -65,12 +72,12 @@ export default function Chat() {
             contacts={contacts}
             changeChat={changeChat}
           />
-          {window.length < 600 ? (
-            null
-          ) : <MenuIcon
-          className="menu ms-2"
-          onClick={() => setClicked(!clicked)}
-        />}
+          {/* {window.innerWidth < 600 ? (
+            <MenuIcon
+              className="menu ms-2"
+              onClick={() => setClicked(!clicked)}
+            />
+          ) : null} */}
         </div>
 
         <div className="container">
@@ -78,8 +85,8 @@ export default function Chat() {
             <Welcome className="welcome" />
           ) : (
             <ChatContainer
-              currentChat={currentChat}
-              currentUser={currentUser}
+            currentChat={currentChat}
+              setCurrentChat={setCurrentChat}
               socket={socket}
             />
           )}

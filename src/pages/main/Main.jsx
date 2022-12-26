@@ -1,24 +1,32 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Chat from '../../components/chat/Chat';
 
 export default function Main() {
   const navigate = useNavigate();
+  const [user, setUser] = useState();
 
-  useEffect(() => {
-    if (localStorage.getItem('user') === null) {
-      navigate('/login');
-    } else {
-      navigate('/chat');
+  useEffect(()=>{
+    async function getU(){
+      if (localStorage.getItem('user') === null) {
+        navigate('/login');
+      } else {
+        setUser(await JSON.parse(localStorage.getItem('user')));
+        navigate('/chat');
+      }
     }
+      getU();
   }, [navigate]);
+
 
   return (
     <>
-      <Routes>
-        <Route path="/chat" element={<Chat />} />
-      </Routes>
+      {user && (
+        <Routes>
+          <Route path="/chat" element={<Chat user={user} />} />
+        </Routes>
+      )}
     </>
   );
 }

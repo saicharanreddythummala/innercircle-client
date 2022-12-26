@@ -7,87 +7,99 @@ import ChatInput from '../chatInput/ChatInput';
 import axios from 'axios';
 import { getMsgsApi, sendMessgaeApi } from '../../utils/apiCalls';
 import { useEffect, useState } from 'react';
-import {v4 as uuid4} from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
-export default function ChatContainer({ currentChat, currentUser, socket }) {
-
-
+export default function ChatContainer({ currentChat, setCurrentChat, currentUser, socket }) {
   const navigate = useNavigate();
-  const scroll = useRef();
-
   const [messages, setMessages] = useState([]);
+  const scroll = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
+  useEffect(() => {
+    async function getMessages() {
+      const user = await JSON.parse(localStorage.getItem('user'));
 
-  //logout function
-  const logout = () => {
-    localStorage.clear();
-    navigate('/login');
-  };
+      const response = await axios.post(getMsgsApi, {
+        from: user._id,
+        to: currentChat._id,
+      });
+      setMessages(response.data);
+    }
+    getMessages()
+  }, [currentChat]);
 
+  useEffect(() => {
+    async function getCurrentChat() {
+      if (currentChat) {
+        await JSON.parse(localStorage.getItem('user'))._id;
+      }
+      
+    }
+    getCurrentChat();
+  }, [currentChat]);
+
+  //send message
   const handleSendMsg = async (msg) => {
+    const user = await JSON.parse(localStorage.getItem('user'));
     await axios.post(`${sendMessgaeApi}`, {
-      from: currentUser._id,
+      from: user._id,
       to: currentChat._id,
       message: msg,
     });
 
-    socket.current.emit('send-msg', {
+
+    socket.current.emit('send-msgs', {
       to: currentChat._id,
-      from: currentUser._id,
+      from: user._id,
       msg,
     });
-    // await axios.post(sendMessageRoute, {
-    //   from: data._id,
-    //   to: currentChat._id,
-    //   message: msg,
-    // });
 
+   
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
-
-    // getMsgs();
   };
-
-
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on('msg-recieve', (msg) => {
+      socket.current.on('recieve', (msg) => {
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, [socket]);
-
+  }, []);
 
   //arrival messages
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
-
   //scroll
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // get msgs
+  // async function getMsgs() {
+  //   if (currentChat) {
+  //     const data = await JSON.parse(localStorage.getItem('user'));
+  //     const response = await axios.post(getMsgsApi, {
+  //       from: data._id,
+  //       to: currentChat._id,
+  //     });
+  //     setMessages(response.data);
+  //   }
+  // }
 
-  //get msgs
-  async function getMsgs() {
-    if (currentChat) {
-      const data = await JSON.parse(localStorage.getItem('user'));
-      const response = await axios.post(getMsgsApi, {
-        from: data._id,
-        to: currentChat._id,
-      });
-      setMessages(response.data);
-    }
-  }
+  // useEffect(() => {
+  //   // getMsgs();
+  // }, [currentChat]);
 
-  useEffect(() => {
-    getMsgs();
-  }, [currentChat._id]);
+  //logout function
+
+  const logout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
 
 
   return (

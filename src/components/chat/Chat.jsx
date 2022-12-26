@@ -39,7 +39,7 @@ export default function Chat() {
     if(currentUser){
 
       socket.current = io(`https://innercircle-server.vercel.app`, {
-        withCredentials: true,
+        withCredentials: 'include',
       });
       socket.current.emit('add-user', currentUser._id);
     }

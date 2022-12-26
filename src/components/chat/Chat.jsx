@@ -43,7 +43,7 @@ export default function Chat() {
       });
       socket.current.emit('add-user', currentUser._id);
     }
-  }, [currentUser]);
+  }, [currentUser, socket]);
 
     useEffect(() => {
     async function getContacts(){

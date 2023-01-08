@@ -1,30 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUsersApi } from '../../utils/apiCalls';
+import { getUsersApi, socketApi } from '../../utils/apiCalls';
 import ChatContainer from '../chatContainer/ChatContainer';
 import Welcome from '../welcome/Welcome';
 import axios from 'axios';
 import ContactsNav from '../contacts/ContactsNav';
 import './chat.scss';
-import MenuIcon from '@mui/icons-material/Menu';
 import { io } from 'socket.io-client';
 import '../chatContainer/chatContainer.scss';
 
-
 export default function Chat() {
   const navigate = useNavigate();
-  
+
   const socket = useRef();
 
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(() => {
+    if (!localStorage.getItem('user')) {
+      return JSON.parse(localStorage.getItem('user'));
+    }
+  });
   const [clicked, setClicked] = useState(false);
 
-
   useEffect(() => {
-    async function getUser(){
-       
+    async function getUser() {
       if (!localStorage.getItem('user')) {
         navigate('/login');
       } else {
@@ -34,19 +34,21 @@ export default function Chat() {
     getUser();
   }, [navigate]);
 
-
+  //socket connection
   useEffect(() => {
-    if(currentUser){
-
-      socket.current = io(`https://innercircle-server.vercel.app`, {
-        withCredentials: 'include',
+    if (currentUser) {
+      socket.current = io(`${socketApi}`, {
+        transports: ['websocket'],
+        withCredentials: true,
       });
+
+
       socket.current.emit('add-user', currentUser._id);
     }
   }, [currentUser, socket]);
 
-    useEffect(() => {
-    async function getContacts(){
+  useEffect(() => {
+    async function getContacts() {
       if (currentUser) {
         if (currentUser.isAvatar) {
           const data = await axios.get(`${getUsersApi}/${currentUser._id}`);
@@ -85,7 +87,7 @@ export default function Chat() {
             <Welcome className="welcome" />
           ) : (
             <ChatContainer
-            currentChat={currentChat}
+              currentChat={currentChat}
               setCurrentChat={setCurrentChat}
               socket={socket}
             />

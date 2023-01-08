@@ -16,7 +16,8 @@ export default function ChatContainer({ currentChat, setCurrentChat, currentUser
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
    //send message
-   const handleSendMsg = async (msg) => {
+   const handleSendMsg = async(msg) => {
+
     const user = await JSON.parse(localStorage.getItem('user'));
     await axios.post(`${sendMessgaeApi}`, {
       from: user._id,
@@ -38,19 +39,17 @@ export default function ChatContainer({ currentChat, setCurrentChat, currentUser
   };
 
   useEffect(() => {
-    // if (socket.current) {
+    if (socket.current) {
       socket.current.on('receive-msg', (msg) => {
-        console.log(msg)
         setArrivalMessage({ fromSelf: false, message: msg });
       });
-    // }
+    }
   }, [socket]);
 
 
   useEffect(() => {
     async function getMessages() {
       const user = await JSON.parse(localStorage.getItem('user'));
-      console.log('get')
       const response = await axios.post(getMsgsApi, {
         from: user._id,
         to: currentChat._id,
@@ -60,18 +59,6 @@ export default function ChatContainer({ currentChat, setCurrentChat, currentUser
     getMessages()
   }, [currentChat._id]);
 
-  // useEffect(() => {
-  //   async function getCurrentChat() {
-  //     if (currentChat) {
-  //       await JSON.parse(localStorage.getItem('user'))._id;
-  //     }
-      
-  //   }
-  //   getCurrentChat();
-  // }, [currentChat]);
-
- 
-  
 
   //arrival messages
   useEffect(() => {

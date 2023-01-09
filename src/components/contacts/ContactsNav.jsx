@@ -16,7 +16,7 @@ export default function ContactsNav({ className, contacts, changeChat }) {
     getUser();
   }, []);
 
-  console.log(currentUserName)
+  console.log(currentUserName);
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
@@ -50,7 +50,6 @@ export default function ContactsNav({ className, contacts, changeChat }) {
                   </div>
                 </div>
               ))}
-              hey
             </div>
             <div className="c_user d-flex align-items-center">
               <Typography variant="h4" color={'white'} className="ms-3">

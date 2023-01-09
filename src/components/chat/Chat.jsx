@@ -23,6 +23,7 @@ export default function Chat() {
   });
   const [clicked, setClicked] = useState(false);
 
+  console.log(contacts);
   useEffect(() => {
     async function getUser() {
       if (!localStorage.getItem('user')) {
@@ -41,7 +42,6 @@ export default function Chat() {
         transports: ['websocket'],
         withCredentials: true,
       });
-
 
       socket.current.emit('add-user', currentUser._id);
     }
@@ -68,19 +68,17 @@ export default function Chat() {
   return (
     <>
       <div className="chat_container d-flex">
-        <div className="d-flex">
-          <ContactsNav
-            className={clicked ? 'menu_clicked contacts_nav' : 'contacts_nav'}
-            contacts={contacts}
-            changeChat={changeChat}
-          />
-          {/* {window.innerWidth < 600 ? (
+        <ContactsNav
+          className={clicked ? 'menu_clicked contacts_nav' : 'contacts_nav'}
+          contacts={contacts}
+          changeChat={changeChat}
+        />
+        {/* {window.innerWidth < 600 ? (
             <MenuIcon
               className="menu ms-2"
               onClick={() => setClicked(!clicked)}
             />
           ) : null} */}
-        </div>
 
         <div className="container">
           {currentChat === undefined ? (

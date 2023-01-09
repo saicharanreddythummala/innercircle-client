@@ -39,7 +39,7 @@ export default function Chat() {
     if (currentUser) {
       socket.current = io(`${socketApi}`, {
         transports: ['websocket','polling'],
-        withCredentials: true,
+        secure: true
       });
 
       socket.current.emit('add-user', currentUser._id);

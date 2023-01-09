@@ -9,7 +9,7 @@ import { getMsgsApi, sendMessgaeApi } from '../../utils/apiCalls';
 import { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 
-export default function ChatContainer({ currentChat, setCurrentChat, currentUser, socket }) {
+export default function ChatContainer({ currentChat, socket }) {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const scroll = useRef();

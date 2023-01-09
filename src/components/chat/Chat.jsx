@@ -38,7 +38,7 @@ export default function Chat() {
   useEffect(() => {
     if (currentUser) {
       socket.current = io(`${socketApi}`, {
-        transports: ['websocket'],
+        transports: ['websocket','polling'],
         withCredentials: true,
       });
 

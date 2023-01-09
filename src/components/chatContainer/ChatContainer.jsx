@@ -41,6 +41,7 @@ export default function ChatContainer({ currentChat, setCurrentChat, currentUser
   useEffect(() => {
     if (socket.current) {
       socket.current.on('receive-msg', (msg) => {
+        console.log(msg)
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }

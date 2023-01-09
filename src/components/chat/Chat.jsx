@@ -23,7 +23,6 @@ export default function Chat() {
   });
   const [clicked, setClicked] = useState(false);
 
-  console.log(contacts);
   useEffect(() => {
     async function getUser() {
       if (!localStorage.getItem('user')) {

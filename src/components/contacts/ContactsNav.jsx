@@ -16,7 +16,6 @@ export default function ContactsNav({ className, contacts, changeChat }) {
     getUser();
   }, []);
 
-  console.log(currentUserName);
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);

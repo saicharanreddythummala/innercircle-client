@@ -40,12 +40,12 @@ export default function ChatContainer({ currentChat, socket }) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on('receive-msg', (msg) => {
+      socket.current.on('response', (msg) => {
         console.log(msg)
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, [socket]);
+  }, [socket, messages]);
 
 
   useEffect(() => {

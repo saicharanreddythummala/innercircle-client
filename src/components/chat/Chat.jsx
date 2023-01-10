@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUsersApi, socketApi } from '../../utils/apiCalls';
+import { getUsersApi, socketApi} from '../../utils/apiCalls';
 import ChatContainer from '../chatContainer/ChatContainer';
 import Welcome from '../welcome/Welcome';
 import axios from 'axios';
@@ -34,7 +34,9 @@ export default function Chat() {
     getUser();
   }, [navigate]);
 
-  //socket connection
+  console.log(socket.current)
+
+  // socket connection
   useEffect(() => {
     if (currentUser) {
       socket.current = io(`${socketApi}`, {
@@ -72,12 +74,6 @@ export default function Chat() {
           contacts={contacts}
           changeChat={changeChat}
         />
-        {/* {window.innerWidth < 600 ? (
-            <MenuIcon
-              className="menu ms-2"
-              onClick={() => setClicked(!clicked)}
-            />
-          ) : null} */}
 
         <div className="container">
           {currentChat === undefined ? (

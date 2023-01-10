@@ -96,7 +96,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
-      navigate('/chat');
+      navigate('/');
     }
   }, [navigate]);
 
